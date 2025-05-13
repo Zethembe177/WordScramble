@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Word Scramble Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    #scrambled {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    #feedback {
+      margin-top: 15px;
+      font-size: 20px;
+      color: blue;
+    }
+
+    input, button {
+      padding: 10px;
+      font-size: 18px;
+    }
+
+    /* Custom styled button */
+    .button-29 {
+      align-items: center;
+      appearance: none;
+      background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+      border: 0;
+      border-radius: 6px;
+      box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,
+                  rgba(45, 35, 66, .3) 0 7px 13px -3px,
+                  rgba(58, 65, 111, .5) 0 -3px 0 inset;
+      box-sizing: border-box;
+      color: #fff;
+      cursor: pointer;
+      display: inline-flex;
+      font-family: "JetBrains Mono", monospace;
+      height: 48px;
+      justify-content: center;
+      line-height: 1;
+      list-style: none;
+      overflow: hidden;
+      padding-left: 16px;
+      padding-right: 16px;
+      position: relative;
+      text-align: center;
+      text-decoration: none;
+      transition: box-shadow .15s, transform .15s;
+      user-select: none;
+      white-space: nowrap;
+      font-size: 18px;
+    }
+
+    .button-29:focus {
+      box-shadow: #3c4fe0 0 0 0 1.5px inset,
+                  rgba(45, 35, 66, .4) 0 2px 4px,
+                  rgba(45, 35, 66, .3) 0 7px 13px -3px,
+                  #3c4fe0 0 -3px 0 inset;
+    }
+
+    .button-29:hover {
+      box-shadow: rgba(45, 35, 66, .4) 0 4px 8px,
+                  rgba(45, 35, 66, .3) 0 7px 13px -3px,
+                  #3c4fe0 0 -3px 0 inset;
+      transform: translateY(-2px);
+    }
+
+    .button-29:active {
+      box-shadow: #3c4fe0 0 3px 7px inset;
+      transform: translateY(2px);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="scrambled">Loading...</div>
+
+  <div class="input-group mt-3">
+    <input type="text" id="guess" class="form-control" placeholder="Your guess" />
+    <button class="button-29" type="button" onclick="checkGuess()">Check</button>
+  </div>
+
+  <div id="feedback" class="mt-2"></div>
+
+  <script>
+    const words = ['apple', 'banana', 'monkey', 'crab', 'zebra'];
+    let currentWord = '';
+
+    // Selects a random word from the 'words' array
+    function getRandomWord() {
+      const index = Math.floor(Math.random() * words.length);
+      return words[index];
+    }
+
+    // Scrambles the letters of the given word using the Fisher-Yates shuffle algorithm
+    function scrambleWord(word) {
+      const letters = word.split('');
+      for (let i = letters.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [letters[i], letters[j]] = [letters[j], letters[i]];
+      }
+      return letters.join('');
+    }
+
+    // Displays a scrambled version of a randomly selected word
+    function showScrambledWord() {
+      currentWord = getRandomWord();
+      const scrambled = scrambleWord(currentWord);
+      document.getElementById('scrambled').textContent = scrambled;
+    }
+
+    // Checks the user's guess against the original word and updates the feedback message
+    function checkGuess() {
+      const userGuess = document.getElementById('guess').value.toLowerCase();
+      const feedback = document.getElementById('feedback');
+      if (userGuess === currentWord) {
+        feedback.textContent = '✅ Correct!';
+        feedback.style.color = 'green';
+      } else {
+        feedback.textContent = '❌ Try again!';
+        feedback.style.color = 'red';
+      }
+    }
+
+    // Start the game
+    showScrambledWord();
+  </script>
+
+</body>
+</html>
